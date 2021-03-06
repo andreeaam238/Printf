@@ -1,0 +1,40 @@
+Blaga Ana-Maria-Andreea, 324CB
+
+Functia "reverseString" inverseaza un sir de caractere primit ca parametru. Astfel, primul caracter devine ultimul si ultimul devine primul etc(sirul de caractere este parcurs pana la jumatate si se face swap intre caractere).
+
+In cadrul urmatoarelor doua functii am ales structura do {...} while (cond); pentru parcurgerea numarului cifra cu cifra deoarece nu am vrut sa tratez cazul in care numarul este 0 separat.
+
+Functia "intToString" creeaza un sir de caractere coespunzator unui numar intreg cu semn primit ca parametru(112 -> "112"). Initial am incercat o alta abordare, dar aceasta nu mergea pe cazul INT_MIN decat printr-o hardcodare(daca numarul era negativ il inmulteam cu -1 si apoi cream sirul). In aceasta varianta verific mai intai daca numarul este negativ, apoi se ia numarul cifra cu cifra si se realizeaza conversia acestora in format char:
+	- Se extrage ultima cifra din numar si se elimina apoi din acesta.
+	- Daca numarul este negativ cifra se inmulteste cu -1, altfel ramane neschimbata.
+	- Se realizeaza conversia cifrei in format char(+ '0') si se adauga in sir.
+		~ 0 -> '0'
+		~ 1 -> 1 + '0' -> '1'
+		etc
+	- Se incrementeaza lungimea sirului ce se creeaza.
+Daca numarul este negativ se insereaza caracterul '-' la sir. Sirul de caractere astfel obtinut este oglinditul numarului initial asa ca se apeleaza reverseString pentru a-l inversa. Am ales sa adaug la 
+finalul sirului '\0' desi nu era nevoie. In final se intoarce lungimea sirului creat.
+
+Functia "unsignedToString" creeaza un sir de caractere corespunzator unui numar intreg fara semn. Sirul poate contine codificarea numarului in format zecimal sau hexazecimal. Initial am facut doua functii diferite: unsignedToString si unsignedToHexaString, dar am reusit sa le combin in una singura. Se imparte numarul la baza de numeratie in care se doreste reprezentarea acestuia(DECIMAL = 10 si HEXADECIMAL = 16) pana cand numarul devine 0 si se construieste sirul de caractere corespunzator pe baza resturilor acestor impartiri:
+	- Se imparte numarul la baza de numeratie dorita si se pastreaza restul.
+	- Se realizeaza conversia restului in fomat char, astfel:
+		-> Daca restul impartirii este o cifra atunci se adauga in sir:
+			~ 0 -> '0'
+			~ 1 -> 1 + '0' -> '1'
+			etc
+		-> Altfel se adauga litera corespunzatoare numarului respectiv:
+			~ 10 -> 10 + 'a' - 10 -> 'a'
+			~ 11 -> 11 + 'a' - 10 -> 'a' + 1 -> 'b'
+			etc
+	- Se incrementeaza lungimea sirului ce se creeaza.
+Sirul de caractere astfel obtinut este oglinditul numarului initial asa ca se apeleaza reverseString pentru a-l inversa. Am ales sa adaug la finalul sirului '\0' desi nu era nevoie. In final se intoarce 
+lungimea sirului creat.
+
+Functia "write_stdout" afiseaza un anumit numar de caractere dintr-un sir.
+
+Functia "iocla_printf" ofera un comportament similar cu printf. Am ales sa afisez fiecare parametru corespunzator specificatorilor de conversie separat pentru a nu crea un sir de caractere foarte mare, ci doar unul suficient pentru un parametru de tip int/unsigned int: sizeof(int) * OCTET + 1 caractere(dimensiunea unui int * dimensiunea unui octet + 1 caracter pentru null terminator). Astfel, se parcurge format string-ul caracter cu caracter:
+	- Daca se identifica caracterul '%' este posibil ca urmatorul caracter din sir sa fie un specificator de conversie, altfel se afiseaza caracterul respectiv.
+		-> In cazul in care caracterul '%' nu este urmat de un specificator de conversie(d, u, x, c sau s) se va afisa acesta.
+		-> Altfel se vor afisa siruri de caractere corespunzatoare unor numere cu sau fara semn, in baza zecimala sau hexazecimala(folosind functiile intToString si unsignedToString), caractere sau siruri de caracatere.
+		-> Se adauga la numarul de caractere afisate lungimea sirului/a caracterului afisat.
+In final functia intoarce numarul total de caractere afisate.
